@@ -53,13 +53,13 @@ model BookingSite {
 }
 
 model Room {
-  roomNumber        Int                 @id
+  roomNumber        String              @id
   roomName          String
-  roomImageUrl      String
+  roomImageUrl      String[]
   maxNumberOfPeople Int
   facilities        String[]
-  roomStatusId      Int
-  roomStatus        RoomStatus          @relation(fields: [roomStatusId], references: [roomStatusId])
+  roomStatusId      Int?                @default(1)
+  roomStatus        RoomStatus?         @relation(fields: [roomStatusId], references: [roomStatusId])
   roomInfo          String?
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
@@ -74,7 +74,7 @@ model RoomStatus {
 
 model ReservationByRoom {
   reservationByRoomId String           @id
-  roomNumber          Int
+  roomNumber          String
   room                Room             @relation(fields: [roomNumber], references: [roomNumber])
   reservationId       String
   reservation         Reservation      @relation(fields: [reservationId], references: [reservationId])
