@@ -35,6 +35,7 @@ model Reservation {
   reservationName         String
   checkInDate             DateTime
   checkOutDate            DateTime
+  reservedRoomName        String[]
   numberOfAdults          Int
   numberOfKids            Int
   reservationInfo         String?
@@ -81,8 +82,8 @@ model ReservationByRoom {
   guestName           String
   numberOfAdults      Int
   numberOfKids        Int
-  guestStatusId       Int
-  guestStatus         GuestStatus      @relation(fields: [guestStatusId], references: [guestStatusId])
+  guestStatusId       Int?             @default(1)
+  guestStatus         GuestStatus?     @relation(fields: [guestStatusId], references: [guestStatusId])
   restaurantTimeId    Int?
   restaurantTime      RestaurantTime?  @relation(fields: [restaurantTimeId], references: [restaurantTimeId])
   restaurantTableId   Int?
