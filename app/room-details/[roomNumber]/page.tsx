@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 import { getRoomByRoomNumber } from "../../../services/room";
 
@@ -27,9 +28,9 @@ const RoomDetailsByRoomNumber = () => {
   return (
     <>
       <div>RoomDetailsByRoomNumber</div>
-      <button onClick={() => handleGetRoomDetails(roomNumber)}>
+      <Button onClick={() => handleGetRoomDetails(roomNumber)}>
         get room details
-      </button>
+      </Button>
     </>
   );
 };
