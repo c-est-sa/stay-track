@@ -1,4 +1,7 @@
+import { Prisma } from "@/lib/generated/prisma/client";
+
 import { prisma } from "../../../../lib/prismaClient";
+import { UserType } from "@/types/db";
 
 export async function GET(
   request: Request,
@@ -48,7 +51,7 @@ export async function PATCH(
     const body = await request.json();
 
     // pick fields to update
-    const userDataToUpdate: any = {};
+    const userDataToUpdate: Partial<UserType> = {};
     if (body.username) userDataToUpdate.username = body.username;
     if (body.email) userDataToUpdate.email = body.email;
     if (body.passwordToken) userDataToUpdate.passwordToken = body.passwordToken;
@@ -62,7 +65,7 @@ export async function PATCH(
       where: {
         userId: parseInt(userId),
       },
-      data: userDataToUpdate,
+      data: userDataToUpdate as Prisma.UserUpdateInput,
     });
 
     if (!updatedUser) {

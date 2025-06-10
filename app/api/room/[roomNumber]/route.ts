@@ -1,4 +1,7 @@
-import { prisma } from "../../../../lib/prismaClient";
+import { Prisma } from "@/lib/generated/prisma/client";
+
+import { prisma } from "@/lib/prismaClient";
+import { RoomType } from "@/types/db";
 
 export async function GET(
   request: Request,
@@ -42,7 +45,7 @@ export async function PATCH(
     const body = await request.json();
 
     // pick fields to update
-    const roomDataToUpdate: any = {};
+    const roomDataToUpdate: Partial<RoomType> = {};
     if (body.roomName) roomDataToUpdate.roomName = body.roomName;
     if (body.roomImageUrl) roomDataToUpdate.roomImageUrl = body.roomImageUrl;
     if (body.maxNumberOfPeople)
@@ -59,7 +62,7 @@ export async function PATCH(
       where: {
         roomNumber,
       },
-      data: roomDataToUpdate,
+      data: roomDataToUpdate as Prisma.RoomUpdateInput,
     });
 
     if (!updatedRoom) {

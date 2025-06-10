@@ -1,4 +1,7 @@
-import { prisma } from "../../../../lib/prismaClient";
+import { Prisma } from "@/lib/generated/prisma/client";
+
+import { prisma } from "@/lib/prismaClient";
+import { ReservationByRoomType } from "@/types/db";
 
 export async function GET(
   request: Request,
@@ -48,7 +51,7 @@ export async function PATCH(
     const body = await request.json();
 
     // pick fields to update
-    const reservationByRoomDataToUpdate: any = {};
+    const reservationByRoomDataToUpdate: Partial<ReservationByRoomType> = {};
     if (body.roomNumber)
       reservationByRoomDataToUpdate.roomNumber = body.roomNumber;
     if (body.reservationId)
@@ -74,7 +77,7 @@ export async function PATCH(
       where: {
         reservationByRoomId,
       },
-      data: reservationByRoomDataToUpdate,
+      data: reservationByRoomDataToUpdate as Prisma.ReservationByRoomUpdateInput,
     });
 
     if (!updatedReservationByRoom) {

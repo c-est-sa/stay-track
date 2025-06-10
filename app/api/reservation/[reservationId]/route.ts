@@ -1,4 +1,7 @@
-import { prisma } from "../../../../lib/prismaClient";
+import { Prisma } from "@/lib/generated/prisma/client";
+
+import { ReservationType } from "@/types/db";
+import { prisma } from "@/lib/prismaClient";
 
 export async function GET(
   request: Request,
@@ -42,7 +45,7 @@ export async function PATCH(
     const body = await request.json();
 
     // pick fields to update
-    const reservationDataToUpdate: any = {};
+    const reservationDataToUpdate: Partial<ReservationType> = {};
     if (body.reservationName)
       reservationDataToUpdate.reservationName = body.reservationName;
     if (body.checkInDate)
@@ -73,17 +76,21 @@ export async function PATCH(
       where: {
         reservationId,
       },
-      data: reservationDataToUpdate,
+      data: reservationDataToUpdate as Prisma.ReservationUpdateInput,
     });
 
     if (!updatedReservation) {
-      return Response.json("Failed to update reservation details", { status: 500 });
+      return Response.json("Failed to update reservation details", {
+        status: 500,
+      });
     }
 
     return Response.json(updatedReservation, { status: 200 });
   } catch (error) {
     console.error("PATCH api/reservation/[reservationId]:", error);
-    return Response.json("Failed to update reservation details", { status: 500 });
+    return Response.json("Failed to update reservation details", {
+      status: 500,
+    });
   }
 }
 
