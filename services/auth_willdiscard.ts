@@ -1,5 +1,6 @@
 import { supabase, supabaseAdmin } from "@/lib/supabaseClient";
 
+// done
 export const signIn = async (email: string, password: string) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -91,6 +92,7 @@ export const listAllUsers = async () => {
   }
 };
 
+// done
 export const createUser = async (email: string, password: string) => {
   try {
     const { data, error } = await supabaseAdmin.auth.admin.createUser({

@@ -19,11 +19,16 @@ export interface CreateRoomStatusData {
   roomStatus: string;
 }
 
-// USER /////////////////////////////////////
+// USER and AUTH /////////////////////////////////////
 
 export interface CreateUserData {
   username: string;
   email: string;
   password: string;
   roleId: number;
+}
+
+export interface SignInData {
+  email: string;
+  password: string;
 }

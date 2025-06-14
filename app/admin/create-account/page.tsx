@@ -136,7 +136,7 @@ export function CreateAccountForm() {
           name="roleId"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Language</FormLabel>
+              <FormLabel>Role</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -190,7 +190,7 @@ export function CreateAccountForm() {
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                This is the language that will be used in the dashboard.
+                This is the role that will be assigned to the user.
               </FormDescription>
               <FormMessage />
             </FormItem>

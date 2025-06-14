@@ -18,7 +18,7 @@ export async function GET(
 
     const user = await prisma.user.findUnique({
       where: {
-        userId: parseInt(userId),
+        userId,
       },
     });
 
@@ -63,7 +63,7 @@ export async function PATCH(
 
     const updatedUser = await prisma.user.update({
       where: {
-        userId: parseInt(userId),
+        userId,
       },
       data: userDataToUpdate as Prisma.UserUpdateInput,
     });
@@ -98,7 +98,7 @@ export async function DELETE(
 
     const deletedUser = await prisma.user.delete({
       where: {
-        userId: parseInt(userId),
+        userId,
       },
     });
 

@@ -1,4 +1,27 @@
-import { CreateUserData } from "@/types/api";
+import { CreateUserData, SignInData } from "@/types/api";
+
+export const signIn = async (signInData: SignInData) => {
+  try {
+    const { email, password } = signInData;
+
+    const response = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to sign in");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error signing in:", error);
+    throw error;
+  }
+};
 
 // ADMIN USER SERVICES /////////////////////////////////////
 
