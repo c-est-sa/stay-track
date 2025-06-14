@@ -4,17 +4,17 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    if (!body.username || !body.email || !body.passwordToken || !body.roleId) {
+    if (!body.userId || !body.username || !body.email || !body.roleId) {
       console.log("Invalid input:", body);
       return Response.json("Invalid input", { status: 400 });
     }
 
-    const { username, email, passwordToken, roleId } = body;
+    const { userId, username, email, roleId } = body;
     const newUser = await prisma.user.create({
       data: {
+        userId,
         username,
         email,
-        passwordToken,
         roleId,
       },
     });

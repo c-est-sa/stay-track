@@ -16,10 +16,9 @@ datasource db {
 }
 
 model User {
-  userId        Int      @id @default(autoincrement())
+  userId        String   @id
   username      String
   email         String   @unique
-  passwordToken String
   roleId        Int
   role          UserRole @relation(fields: [roleId], references: [roleId])
 }

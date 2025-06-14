@@ -18,3 +18,12 @@ export interface UpdateRoomData extends Partial<CreateRoomData> {
 export interface CreateRoomStatusData {
   roomStatus: string;
 }
+
+// USER /////////////////////////////////////
+
+export interface CreateUserData {
+  username: string;
+  email: string;
+  password: string;
+  roleId: number;
+}
