@@ -21,14 +21,27 @@ export interface CreateRoomStatusData {
 
 // USER and AUTH /////////////////////////////////////
 
-export interface CreateUserData {
+export interface CreateUserDataType {
   username: string;
   email: string;
   password: string;
   roleId: number;
 }
 
-export interface SignInData {
+export interface SignInDataType {
   email: string;
   password: string;
+}
+
+export interface UpdateUserAuthDataType {
+  email?: string;
+  app_metadata?: {
+    isAdmin?: boolean;
+  };
+  password?: string;
+}
+
+export interface UpdateUserDataType extends Partial<UpdateUserAuthDataType> {
+  username?: string;
+  roleId?: number;
 }

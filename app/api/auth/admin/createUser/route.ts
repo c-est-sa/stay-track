@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabaseClient";
+import { supabaseAdmin } from "@/lib/supabaseAdminClient";
 
 export async function POST(request: Request) {
   try {

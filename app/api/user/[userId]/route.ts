@@ -54,7 +54,6 @@ export async function PATCH(
     const userDataToUpdate: Partial<UserType> = {};
     if (body.username) userDataToUpdate.username = body.username;
     if (body.email) userDataToUpdate.email = body.email;
-    if (body.passwordToken) userDataToUpdate.passwordToken = body.passwordToken;
     if (body.roleId) userDataToUpdate.roleId = body.roleId;
 
     if (Object.keys(userDataToUpdate).length === 0) {

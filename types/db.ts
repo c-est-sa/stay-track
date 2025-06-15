@@ -2,7 +2,6 @@ export interface UserType {
   userId: string;
   username: string;
   email: string;
-  passwordToken: string;
   roleId: number;
   role: UserRoleType;
 }

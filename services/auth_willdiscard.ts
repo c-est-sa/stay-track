@@ -1,4 +1,5 @@
-import { supabase, supabaseAdmin } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
+import { supabaseAdmin } from "@/lib/supabaseAdminClient";
 
 // done
 export const signIn = async (email: string, password: string) => {
@@ -138,6 +139,7 @@ export const sendEmailInviteLink = async (email: string) => {
   }
 };
 
+// done
 export const updateUser = async (userId: string, newEmail: string) => {
   try {
     const { data: user, error } = await supabaseAdmin.auth.admin.updateUserById(

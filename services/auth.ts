@@ -1,6 +1,10 @@
-import { CreateUserData, SignInData } from "@/types/api";
+import {
+  CreateUserDataType,
+  SignInDataType,
+  UpdateUserDataType,
+} from "@/types/api";
 
-export const signIn = async (signInData: SignInData) => {
+export const signIn = async (signInData: SignInDataType) => {
   try {
     const { email, password } = signInData;
 
@@ -25,7 +29,7 @@ export const signIn = async (signInData: SignInData) => {
 
 // ADMIN USER SERVICES /////////////////////////////////////
 
-export const createUser = async (userData: CreateUserData) => {
+export const createUser = async (userData: CreateUserDataType) => {
   try {
     const { username, email, password, roleId } = userData;
 
@@ -61,6 +65,63 @@ export const createUser = async (userData: CreateUserData) => {
     return await createUserOnDBResponse.json();
   } catch (error) {
     console.error("Error creating user:", error);
+    throw error;
+  }
+};
+
+export const updateUser = async (
+  userId: string,
+  userData: UpdateUserDataType
+) => {
+  try {
+    const updateUserOnAuthResponse = await fetch(
+      `/api/auth/admin/user/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
+
+    if (!updateUserOnAuthResponse.ok) {
+      throw new Error("Failed to update user on Supabase Auth");
+    }
+
+    const data = await updateUserOnAuthResponse.json();
+    console.log("User updated on Supabase Auth:", data.user);
+
+    const updateUserOnDBResponse = await fetch(`/api/user/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!updateUserOnDBResponse.ok) {
+      throw new Error("Failed to update user in database");
+    }
+
+    return await updateUserOnDBResponse.json();
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
+};
+
+export const getUserById = async (userId: string) => {
+  try {
+    const response = await fetch(`/api/user/${userId}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to get user");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting user by ID:", error);
     throw error;
   }
 };
