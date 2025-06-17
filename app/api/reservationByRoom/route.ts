@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const reservations = await prisma.reservation.findMany();
+    const reservations = await prisma.reservationByRoom.findMany();
 
     if (reservations.length === 0) {
       return Response.json("No reservations found", { status: 404 });
