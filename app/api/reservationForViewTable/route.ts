@@ -43,6 +43,12 @@ export async function GET(request: Request) {
             roomStatus: true,
           },
         },
+        guestStatus: {
+          select: {
+            guestStatusId: true,
+            guestStatus: true,
+          },
+        },
       },
     });
 
@@ -54,7 +60,13 @@ export async function GET(request: Request) {
       });
     }
 
-    return Response.json(reservations, { status: 200 });
+    const reservationsWithNumberOfGuests = reservations.map((reservation) => {
+      const numberOfGuests =
+        reservation.numberOfAdults + reservation.numberOfKids;
+      return { ...reservation, numberOfGuests };
+    });
+
+    return Response.json(reservationsWithNumberOfGuests, { status: 200 });
   } catch (error) {
     console.error("GET api/reservationForViewTable?checkIn:", error);
     return Response.json("Failed to get reservations for View Table", {
