@@ -11,7 +11,7 @@ import { getReservationsForViewTable } from "@/services/reservation";
 const GuestView = () => {
   const today = new Date().toISOString().split("T")[0]; //YYYY-MM-DD
 
-  const [checkInDate, setCheckInDate] = useState(today);
+  const [checkInDate, setCheckInDate] = useState("2025-06-07");
   const [reservationData, setReservationData] = useState<
     ReservationByRoomTableType[]
   >([]);
