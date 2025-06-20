@@ -16,3 +16,18 @@ export const getReservationsForViewTable = async (checkIn: string) => {
     throw error;
   }
 };
+
+export const getGuestDetails = async (reservationByRoomId: string) => {
+  try {
+    const response = await fetch(`/api/guestDetails/${reservationByRoomId}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to get guest details");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting guest details:", error);
+    throw error;
+  }
+};
