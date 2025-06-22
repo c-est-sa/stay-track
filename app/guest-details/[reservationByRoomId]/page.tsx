@@ -1,7 +1,11 @@
 "use client";
 
 import GuestForm, { GuestFormSchema } from "@/components/form/GuestForm";
-import { getGuestDetails, updateGuestDetails } from "@/services/reservation";
+import {
+  deleteReservationByRoom,
+  getGuestDetails,
+  updateGuestDetails,
+} from "@/services/reservation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
@@ -111,10 +115,34 @@ const GuestDetails = () => {
     }
   };
 
+  const onDelete = async () => {
+    try {
+      const data = await deleteReservationByRoom(
+        reservationByRoomId.toString()
+      );
+
+      if (!data) {
+        console.error("Error deleting guest details");
+        window.alert(
+          "An error occurred while deleting guest details. Please try again."
+        );
+        return;
+      }
+      console.log("Guest details deleted successfully:", data);
+      window.alert("Guest details deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting guest details:", error);
+      window.alert(
+        "An error occurred while deleting guest details. Please try again."
+      );
+      return;
+    }
+  };
+
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Guest Details</h1>
-      <GuestForm form={form} onSubmit={onSubmit} />
+      <GuestForm form={form} onSubmit={onSubmit} onDelete={onDelete} />
     </>
   );
 };

@@ -4,6 +4,8 @@ import {
   GuestDetailsDataType,
 } from "@/types/api";
 
+// RESERVATION SERVICES BASIC /////////////////////////////////////
+
 export const updateReservation = async (
   reservationId: string,
   reservationData: UpdateReservationDataType
@@ -28,6 +30,25 @@ export const updateReservation = async (
   }
 };
 
+export const deleteReservation = async (reservationId: string) => {
+  try {
+    const response = await fetch(`/api/reservation/${reservationId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete reservation");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error deleting reservation:", error);
+    throw error;
+  }
+};
+
+// RESERVATION BY ROOM SERVICES BASIC /////////////////////////////////////
+
 export const updateReservationByRoom = async (
   reservationByRoomId: string,
   reservationByRoomIdData: UpdateReservationByRoomDataType
@@ -50,10 +71,32 @@ export const updateReservationByRoom = async (
 
     return await response.json();
   } catch (error) {
-    console.error("Erro updating reservation by room:", error);
+    console.error("Error updating reservation by room:", error);
     throw error;
   }
 };
+
+export const deleteReservationByRoom = async (reservationByRoomId: string) => {
+  try {
+    const response = await fetch(
+      `/api/reservationByRoom/${reservationByRoomId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to delete reservation by room");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error deleting reservation by room:", error);
+    throw error;
+  }
+};
+
+// PAGE SPECIFIC SERVICES /////////////////////////////////////
 
 export const getReservationsForViewTable = async (checkIn: string) => {
   try {
@@ -161,3 +204,5 @@ export const updateGuestDetails = async (
     throw error;
   }
 };
+
+export const deleteGuestDetails = async () => {};

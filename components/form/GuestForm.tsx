@@ -80,6 +80,7 @@ const bookingSites = [
 
 interface GuestFormProps {
   form: UseFormReturn<{
+    reservationByRoomId: string;
     guestName: string;
     checkInDate: Date;
     checkOutDate: Date;
@@ -93,9 +94,10 @@ interface GuestFormProps {
     paymentCompletionStatus: boolean;
   }>;
   onSubmit: (values: z.infer<typeof GuestFormSchema>) => void;
+  onDelete: () => void;
 }
 
-const GuestForm = ({ form, onSubmit }: GuestFormProps) => {
+const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
   const isRoomNumberDisabled = true;
 
   return (
@@ -373,7 +375,7 @@ const GuestForm = ({ form, onSubmit }: GuestFormProps) => {
             <FormItem>
               <FormLabel>Reservation ID</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} disabled/>
+                <Input placeholder="shadcn" {...field} disabled />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -460,7 +462,9 @@ const GuestForm = ({ form, onSubmit }: GuestFormProps) => {
           )}
         />
 
-        <Button variant="destructive">Delete</Button>
+        <Button variant="destructive" type="button" onClick={onDelete}>
+          Delete
+        </Button>
         <Button type="submit">Submit</Button>
       </form>
     </Form>
