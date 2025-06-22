@@ -7,11 +7,12 @@ import {
 } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DataTable";
 import { getReservationsForViewTable } from "@/services/reservation";
+import { toLocalDateString } from "@/utils/date";
 
 const GuestView = () => {
-  const today = new Date().toISOString().split("T")[0]; //YYYY-MM-DD
+  const today = toLocalDateString(new Date()); //YYYY-MM-DD
 
-  const [checkInDate, setCheckInDate] = useState("2025-06-08");
+  const [checkInDate, setCheckInDate] = useState(today);
   const [reservationData, setReservationData] = useState<
     ReservationByRoomTableType[]
   >([]);
@@ -19,6 +20,7 @@ const GuestView = () => {
   useEffect(() => {
     const fetchReservationsForViewTable = async () => {
       try {
+        console.log("Check-in date:", checkInDate);
         const data = await getReservationsForViewTable(checkInDate);
         console.log(data);
 
@@ -32,6 +34,7 @@ const GuestView = () => {
 
         if (data.length === 0) {
           console.warn("No reservations found.");
+          setReservationData(data);
           return;
         }
 
@@ -50,7 +53,12 @@ const GuestView = () => {
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Guest View</h1>
-      <DataTable columns={columns} data={reservationData} />
+      <DataTable
+        columns={columns}
+        data={reservationData}
+        checkInDate={checkInDate}
+        setCheckInDate={setCheckInDate}
+      />
     </>
   );
 };

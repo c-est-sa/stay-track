@@ -11,6 +11,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 
 import {
   Table,
@@ -20,17 +21,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "../ui/input";
-import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { DatePickerWithInput } from "@/components/datepicker/DatePickerWithInput";
+import { Label } from "../ui/label";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  checkInDate: string;
+  setCheckInDate: (date: string) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  checkInDate,
+  setCheckInDate,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -50,16 +56,27 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter guest names..."
-          value={
-            (table.getColumn("guestName")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("guestName")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
+      <div className="flex items-center justify-evenly py-4">
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="guestNameFilter" className="px-1">
+            Filter by Guest Name
+          </Label>
+          <Input
+            id="guestNameFilter"
+            placeholder="Filter guest names..."
+            value={
+              (table.getColumn("guestName")?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn("guestName")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <DatePickerWithInput
+          label="Check-In Date"
+          checkInDate={checkInDate}
+          setCheckInDate={setCheckInDate}
         />
       </div>
       <div className="rounded-md border">
