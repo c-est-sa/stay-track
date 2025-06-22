@@ -43,6 +43,7 @@ export async function PATCH(
     }
 
     const body = await request.json();
+    console.log("PATCH api/reservation/[reservationId]:", body);
 
     // pick fields to update
     const reservationDataToUpdate: Partial<ReservationType> = {};
@@ -60,7 +61,7 @@ export async function PATCH(
       reservationDataToUpdate.numberOfKids = body.numberOfKids;
     if (body.reservationInfo)
       reservationDataToUpdate.reservationInfo = body.reservationInfo;
-    if (body.paymentCompletionStatus)
+    if ("paymentCompletionStatus" in body)
       reservationDataToUpdate.paymentCompletionStatus =
         body.paymentCompletionStatus;
     if (body.reservationsByRoom)

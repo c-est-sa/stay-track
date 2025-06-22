@@ -25,12 +25,12 @@ export async function GET(
             checkOutDate: true,
             reservationInfo: true,
             paymentCompletionStatus: true,
-            bookingSite:{
+            bookingSite: {
               select: {
                 bookingSiteId: true,
                 bookingSiteName: true,
               },
-            }
+            },
           },
         },
         room: {

@@ -1,3 +1,44 @@
+// RESEVATION /////////////////////////////////////
+
+export interface CreateReservationDataType {
+  reservationId: string;
+  reservationName: string;
+  checkInDate: Date;
+  checkOutDate: Date;
+  reservedRoomName: string[];
+  numberOfAdults: number;
+  numberOfKids: number;
+  paymentCompletionStatus: boolean;
+  bookingSite: number;
+}
+
+export interface UpdateReservationDataType
+  extends Partial<CreateReservationDataType> {
+  reservationInfo?: string;
+}
+
+export interface CreateReservationByRoomDataType {
+  reservationByRoomId: string;
+  roomNumber: string;
+  reservationId: string;
+  guestName: string;
+  numberOfAdults: number;
+  numberOfKids: number;
+}
+
+export interface UpdateReservationByRoomDataType
+  extends Partial<CreateReservationByRoomDataType> {
+  guestStatusId?: number;
+  restaurantTimeId?: number;
+  restaurantTableId?: number;
+}
+
+export interface GuestDetailsDataType
+  extends UpdateReservationDataType,
+    UpdateReservationByRoomDataType {
+      reservationsByRoom?: CreateReservationByRoomDataType[];
+    }
+
 // ROOM /////////////////////////////////////
 
 export interface CreateRoomData {
