@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       !body.reservedRoomName ||
       !body.numberOfAdults ||
       body.numberOfKids < 0 ||
-      !body.paymentCompletionStatus ||
+      "paymentCompletionStatus" in body === false ||
       !body.bookingSiteId
     ) {
       console.log("Invalid input:", body);

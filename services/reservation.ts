@@ -1,10 +1,36 @@
 import {
   UpdateReservationDataType,
   UpdateReservationByRoomDataType,
-  GuestDetailsDataType,
+  UpdateGuestDetailsDataType,
+  CreateReservationDataType,
+  CreateReservationByRoomDataType,
+  CreateGuestDetailsDataType,
 } from "@/types/api";
 
 // RESERVATION SERVICES BASIC /////////////////////////////////////
+
+export const createReservation = async (
+  reservationData: CreateReservationDataType
+) => {
+  try {
+    const response = await fetch("/api/reservation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reservationData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create reservation");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error creating reservation:", error);
+    throw error;
+  }
+};
 
 export const updateReservation = async (
   reservationId: string,
@@ -48,6 +74,29 @@ export const deleteReservation = async (reservationId: string) => {
 };
 
 // RESERVATION BY ROOM SERVICES BASIC /////////////////////////////////////
+
+export const createReservationByRoom = async (
+  reservationByRoomData: CreateReservationByRoomDataType
+) => {
+  try {
+    const response = await fetch("/api/reservationByRoom", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reservationByRoomData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create reservation by room");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error creating reservation by room:", error);
+    throw error;
+  }
+};
 
 export const updateReservationByRoom = async (
   reservationByRoomId: string,
@@ -117,6 +166,74 @@ export const getReservationsForViewTable = async (checkIn: string) => {
   }
 };
 
+export const createGuestDetails = async (
+  dataToPost: CreateGuestDetailsDataType
+) => {
+  try {
+    const {
+      // reservation
+      reservationId,
+      // reservationName,
+      checkInDate,
+      checkOutDate,
+      reservedRoomName,
+      numberOfAdults,
+      numberOfKids,
+      // reservationInfo,
+      paymentCompletionStatus,
+      // reservationsByRoom,
+      bookingSite,
+
+      // reservationByRoom
+      reservationByRoomId,
+      roomNumber,
+      // reservationId,
+      guestName,
+      // numberOfAdults,
+      // numberOfKids,
+    } = dataToPost;
+
+    const reservationData = {
+      reservationId,
+      reservationName: guestName,
+      checkInDate,
+      checkOutDate,
+      reservedRoomName,
+      numberOfAdults,
+      numberOfKids,
+      paymentCompletionStatus,
+      bookingSiteId: bookingSite,
+    };
+
+    const reservationByRoomData = {
+      reservationByRoomId: reservationId,
+      roomNumber,
+      reservationId,
+      guestName,
+      numberOfAdults,
+      numberOfKids,
+    };
+
+    console.log(
+      "reservationByRoomData from reservation.ts:",
+      reservationByRoomData
+    );
+
+    // await Promise.all([
+    //   createReservation(reservationData),
+    //   createReservationByRoom(reservationByRoomData),
+    // ]);
+
+    await createReservation(reservationData);
+    await createReservationByRoom(reservationByRoomData);
+
+    return { success: true, message: "Guest details created successfully" };
+  } catch (error) {
+    console.error("Error creating guest details:", error);
+    throw error;
+  }
+};
+
 export const getGuestDetails = async (reservationByRoomId: string) => {
   try {
     const response = await fetch(`/api/guestDetails/${reservationByRoomId}`);
@@ -134,7 +251,7 @@ export const getGuestDetails = async (reservationByRoomId: string) => {
 
 export const updateGuestDetails = async (
   reservationByRoomId: string,
-  dataToUpdate: GuestDetailsDataType
+  dataToUpdate: UpdateGuestDetailsDataType
 ) => {
   try {
     const {

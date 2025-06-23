@@ -9,7 +9,7 @@ export interface CreateReservationDataType {
   numberOfAdults: number;
   numberOfKids: number;
   paymentCompletionStatus: boolean;
-  bookingSite: number;
+  bookingSiteId: number;
 }
 
 export interface UpdateReservationDataType
@@ -33,11 +33,15 @@ export interface UpdateReservationByRoomDataType
   restaurantTableId?: number;
 }
 
-export interface GuestDetailsDataType
+export interface CreateGuestDetailsDataType
+  extends CreateReservationDataType,
+    CreateReservationByRoomDataType {}
+
+export interface UpdateGuestDetailsDataType
   extends UpdateReservationDataType,
     UpdateReservationByRoomDataType {
-      reservationsByRoom?: CreateReservationByRoomDataType[];
-    }
+  reservationsByRoom?: CreateReservationByRoomDataType[];
+}
 
 // ROOM /////////////////////////////////////
 

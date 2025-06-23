@@ -6,8 +6,14 @@ import {
   ReservationByRoomTableType,
 } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DataTable";
+import { Button } from "@/components/ui/button";
 import { getReservationsForViewTable } from "@/services/reservation";
 import { toLocalDateString } from "@/utils/date";
+import { GuestFormSchema } from "@/components/form/GuestForm";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 const GuestView = () => {
   const today = toLocalDateString(new Date()); //YYYY-MM-DD
@@ -50,8 +56,28 @@ const GuestView = () => {
     fetchReservationsForViewTable();
   }, [checkInDate]);
 
+  type GuestFormValues = z.infer<typeof GuestFormSchema>;
+
+  const form = useForm<GuestFormValues>({
+    resolver: zodResolver(GuestFormSchema),
+    defaultValues: {
+      guestName: "",
+      checkInDate: new Date(),
+      checkOutDate: new Date(),
+      numberOfAdults: 1,
+      numberOfKids: 0,
+      roomNumber: "",
+      guestStatus: 1,
+      reservationInfo: "",
+      reservationId: "",
+      bookingSite: 1,
+      paymentCompletionStatus: false,
+      reservationByRoomId: "", // if required
+    },
+  });
+
   return (
-    <>
+    <div>
       <h1 className="text-2xl font-bold mb-4">Guest View</h1>
       <DataTable
         columns={columns}
@@ -59,7 +85,10 @@ const GuestView = () => {
         checkInDate={checkInDate}
         setCheckInDate={setCheckInDate}
       />
-    </>
+      <Button>
+        <Link href={"/guest-details/new"}>Create</Link>
+      </Button>
+    </div>
   );
 };
 

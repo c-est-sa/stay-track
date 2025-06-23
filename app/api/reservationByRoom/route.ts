@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     });
 
     if (!newReservationByRoom) {
-      return Response.json("Failed to create a reservationByRoom", {
+      return Response.json("Failed to create a reservationByRoom...", {
         status: 500,
       });
     }

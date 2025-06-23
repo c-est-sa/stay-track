@@ -1,7 +1,6 @@
 import React from "react";
 
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -55,6 +54,8 @@ export const GuestFormSchema = z.object({
   reservationId: z.string().optional(),
   bookingSite: z.number(),
   paymentCompletionStatus: z.boolean().default(false),
+  reservationByRoomId: z.string().optional(),
+  // reservedRoomName: z.string().optional(),
 });
 
 const roomNumbers = [
@@ -94,12 +95,16 @@ interface GuestFormProps {
     paymentCompletionStatus: boolean;
   }>;
   onSubmit: (values: z.infer<typeof GuestFormSchema>) => void;
-  onDelete: () => void;
+  onDelete?: () => void;
+  isNewCreation?: boolean;
 }
 
-const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
-  const isRoomNumberDisabled = true;
-
+const GuestForm = ({
+  form,
+  onSubmit,
+  onDelete,
+  isNewCreation,
+}: GuestFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -110,7 +115,7 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
             <FormItem>
               <FormLabel>Guest Name</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="guest name..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -146,9 +151,7 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
+                    disabled={(date) => date < new Date("2025-06-01")}
                     captionLayout="dropdown"
                   />
                 </PopoverContent>
@@ -187,9 +190,7 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
+                    disabled={(date) => date < new Date("2025-06-01")}
                     captionLayout="dropdown"
                   />
                 </PopoverContent>
@@ -205,7 +206,12 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
             <FormItem>
               <FormLabel># of Adults</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input
+                  type="number"
+                  placeholder="1"
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -218,7 +224,12 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
             <FormItem>
               <FormLabel># of Kids</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input
+                  type="number"
+                  placeholder="0"
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -230,7 +241,7 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Room</FormLabel>
-              <Popover open={!isRoomNumberDisabled}>
+              <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -240,7 +251,7 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
                         "w-[200px] justify-between",
                         !field.value && "text-muted-foreground"
                       )}
-                      disabled={isRoomNumberDisabled}
+                      disabled={!isNewCreation}
                     >
                       {field.value
                         ? roomNumbers.find((room) => room.value === field.value)
@@ -255,7 +266,7 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
                     <CommandInput
                       placeholder="Search framework..."
                       className="h-9"
-                      disabled={isRoomNumberDisabled}
+                      disabled={!isNewCreation}
                     />
                     <CommandList>
                       <CommandEmpty>No room found.</CommandEmpty>
@@ -288,86 +299,90 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="guestStatus"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Guest Status</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "w-[200px] justify-between",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value
-                        ? guestStatuses.find(
-                            (guestStatus) => guestStatus.value === field.value
-                          )?.label
-                        : "Select room"}
-                      <ChevronsUpDown className="opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput
-                      placeholder="Search framework..."
-                      className="h-9"
-                    />
-                    <CommandList>
-                      <CommandEmpty>No framework found.</CommandEmpty>
-                      <CommandGroup>
-                        {guestStatuses.map((guestStatus) => (
-                          <CommandItem
-                            value={guestStatus.label}
-                            key={guestStatus.value}
-                            onSelect={() => {
-                              form.setValue("guestStatus", guestStatus.value);
-                            }}
-                          >
-                            {guestStatus.label}
-                            <Check
-                              className={cn(
-                                "ml-auto",
-                                guestStatus.value === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="reservationInfo"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Info</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Enter guest information here if any."
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {!isNewCreation && (
+          <FormField
+            control={form.control}
+            name="guestStatus"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Guest Status</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value
+                          ? guestStatuses.find(
+                              (guestStatus) => guestStatus.value === field.value
+                            )?.label
+                          : "Select room"}
+                        <ChevronsUpDown className="opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput
+                        placeholder="Search framework..."
+                        className="h-9"
+                      />
+                      <CommandList>
+                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandGroup>
+                          {guestStatuses.map((guestStatus) => (
+                            <CommandItem
+                              value={guestStatus.label}
+                              key={guestStatus.value}
+                              onSelect={() => {
+                                form.setValue("guestStatus", guestStatus.value);
+                              }}
+                            >
+                              {guestStatus.label}
+                              <Check
+                                className={cn(
+                                  "ml-auto",
+                                  guestStatus.value === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {!isNewCreation && (
+          <FormField
+            control={form.control}
+            name="reservationInfo"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Info</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Enter guest information here if any."
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="reservationId"
@@ -462,9 +477,11 @@ const GuestForm = ({ form, onSubmit, onDelete }: GuestFormProps) => {
           )}
         />
 
-        <Button variant="destructive" type="button" onClick={onDelete}>
-          Delete
-        </Button>
+        {onDelete && (
+          <Button variant="destructive" type="button" onClick={onDelete}>
+            Delete
+          </Button>
+        )}
         <Button type="submit">Submit</Button>
       </form>
     </Form>
