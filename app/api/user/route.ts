@@ -36,7 +36,16 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      include: {
+        role: {
+          select: {
+            roleId: true,
+            role: true,
+          },
+        },
+      },
+    });
 
     if (users.length === 0) {
       return Response.json("No users found", { status: 404 });

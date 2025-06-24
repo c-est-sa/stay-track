@@ -24,9 +24,13 @@ const hotelMenuItems = [
   { title: "Guest View", url: "/guest-view", icon: BookUser },
 ];
 
-const staffMenuItems = [
-  { title: "Account", url: "/", icon: CircleUser },
-  { title: "Admin", url: "/", icon: ShieldUser },
+const adminMenuItems = [
+  { title: "Staff List", url: "/admin/staff", icon: CircleUser },
+  {
+    title: "Create New Account",
+    url: "/admin/create-account",
+    icon: ShieldUser,
+  },
 ];
 
 export function AppSidebar() {
@@ -64,10 +68,10 @@ export function AppSidebar() {
         <SidebarGroup />
 
         <SidebarGroup />
-        <SidebarGroupLabel>Staff</SidebarGroupLabel>
+        <SidebarGroupLabel>Admin</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {staffMenuItems.map((item) => (
+            {adminMenuItems.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <Link href={item.url}>

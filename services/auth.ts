@@ -125,3 +125,18 @@ export const getUserById = async (userId: string) => {
     throw error;
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const response = await fetch("/api/user");
+
+    if (!response.ok) {
+      throw new Error("Failed to get all users");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting all users:", error);
+    throw error;
+  }
+};

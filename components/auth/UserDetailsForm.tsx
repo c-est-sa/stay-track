@@ -48,7 +48,7 @@ export const UserDetailsFormSchema = z.object({
 const roles = [
   { label: "Admin", value: 1 },
   { label: "Reception", value: 2 },
-  { label: "Housekeeping", value: 3 },
+  // { label: "Housekeeping", value: 3 },
 ] as const;
 
 interface UserDetailsFormProps {
@@ -74,9 +74,6 @@ const UserDetailsForm = ({ form, onSubmit }: UserDetailsFormProps) => {
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -90,7 +87,6 @@ const UserDetailsForm = ({ form, onSubmit }: UserDetailsFormProps) => {
               <FormControl>
                 <Input placeholder="email" {...field} />
               </FormControl>
-              <FormDescription>Input your email address.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -104,7 +100,9 @@ const UserDetailsForm = ({ form, onSubmit }: UserDetailsFormProps) => {
               <FormControl>
                 <Input placeholder="password" {...field} />
               </FormControl>
-              <FormDescription>Input your password.</FormDescription>
+              <FormDescription>
+                You can decide their password and let them know.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
