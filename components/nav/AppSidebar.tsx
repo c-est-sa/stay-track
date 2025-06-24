@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +20,7 @@ import {
   LogOut,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const hotelMenuItems = [
   // { title: "Room View", url: "/room-view", icon: BedDouble },
@@ -34,6 +37,8 @@ const adminMenuItems = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -58,7 +63,9 @@ export function AppSidebar() {
                 <SidebarMenuButton asChild>
                   <Link href={item.url}>
                     <item.icon />
-                    <span>{item.title}</span>
+                    <span className={pathname === item.url ? "font-bold" : ""}>
+                      {item.title}
+                    </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -76,7 +83,9 @@ export function AppSidebar() {
                 <SidebarMenuButton asChild>
                   <Link href={item.url}>
                     <item.icon />
-                    <span>{item.title}</span>
+                    <span className={pathname === item.url ? "font-bold" : ""}>
+                      {item.title}
+                    </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
