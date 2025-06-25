@@ -20,7 +20,9 @@ import {
   LogOut,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { signOut } from "@/services/auth";
 
 const hotelMenuItems = [
   // { title: "Room View", url: "/room-view", icon: BedDouble },
@@ -38,6 +40,22 @@ const adminMenuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+
+      console.log("User signed out successfully.");
+      window.alert("User signed out successfully.");
+
+      router.push("/signin");
+    } catch (error) {
+      console.error("Error during sign out:", error);
+      window.alert("An error occurred while signing out. Please try again.");
+      return;
+    }
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -99,10 +117,14 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/">
+              <Button
+                variant="ghost"
+                className="w-full justify-start"
+                onClick={handleSignOut}
+              >
                 <LogOut />
                 <span>Sign Out</span>
-              </Link>
+              </Button>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

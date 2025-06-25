@@ -11,7 +11,9 @@ export async function POST() {
       });
     }
 
-    return { message: "Signed out successfully" };
+    return Response.json("Signed out successfully", {
+      status: 200,
+    });
   } catch (error) {
     console.error("POST api/auth/signout:", error);
     return Response.json("Failed to sign out", {

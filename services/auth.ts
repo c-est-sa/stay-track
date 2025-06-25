@@ -27,6 +27,38 @@ export const signIn = async (signInData: SignInDataType) => {
   }
 };
 
+export const signOut = async () => {
+  try {
+    const response = await fetch("/api/auth/signout", {
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to sign out");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error signing out:", error);
+    throw error;
+  }
+};
+
+export const getSession = async () => {
+  try {
+    const response = await fetch("/api/auth/getSession");
+
+    if (!response.ok) {
+      throw new Error("Failed to get session");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting session:", error);
+    throw error;
+  }
+};
+
 // ADMIN USER SERVICES /////////////////////////////////////
 
 export const createUser = async (userData: CreateUserDataType) => {

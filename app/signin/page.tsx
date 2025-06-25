@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signIn } from "@/services/auth";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -28,6 +29,8 @@ const formSchema = z.object({
 });
 
 const SignInForm = () => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,6 +45,8 @@ const SignInForm = () => {
 
       console.log("User signed in successfully:", response);
       window.alert("User signed in successfully.");
+
+      router.push("/");
     } catch (error) {
       console.error("Error during form submission:", error);
       window.alert(

@@ -32,7 +32,7 @@ export const signOut = async () => {
   }
 };
 
-// get currently signed-in user on the server
+// get currently signed-in user on the server - mainly for authorization
 export const getUser = async () => {
   try {
     const {
