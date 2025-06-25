@@ -140,3 +140,29 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+export const deleteUser = async (userId: string) => {
+  try {
+    const [adminRes, userRes] = await Promise.all([
+      fetch(`/api/auth/admin/user/${userId}`, {
+        method: "DELETE",
+      }),
+      fetch(`/api/user/${userId}`, {
+        method: "DELETE",
+      }),
+    ]);
+
+    if (!adminRes.ok || !userRes.ok) {
+      const adminErr = await adminRes.text();
+      const userErr = await userRes.text();
+      throw new Error(
+        `Failed to delete user. Admin: ${adminRes.status} ${adminErr}, User: ${userRes.status} ${userErr}`
+      );
+    }
+
+    return { success: true, message: "Staff deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error;
+  }
+};

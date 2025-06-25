@@ -50,8 +50,43 @@ export async function PATCH(
 
     return Response.json(user, { status: 200 });
   } catch (error) {
-    console.error("POST api/auth/admin/updateUser:", error);
+    console.error("PATCH api/auth/admin/[userId]:", error);
     return Response.json("Failed to update user on Supabase Auth", {
+      status: 500,
+    });
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ userId: string }> }
+) {
+  try {
+    const { userId } = await params;
+
+    if (!userId) {
+      return Response.json("User ID is required", { status: 400 });
+    }
+
+    const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId);
+
+    if (error) {
+      console.error("Error deleting user on Supabase Auth:", error);
+      return Response.json("Failed to delete user on Supabase Auth", {
+        status: 500,
+      });
+    }
+
+    if (!data) {
+      return Response.json("Failed to delete user on Supabase Auth", {
+        status: 500,
+      });
+    }
+
+    return Response.json(data, { status: 200 });
+  } catch (error) {
+    console.error("DELETE api/auth/admin/user/[userId]:", error);
+    return Response.json("Failed to delete user on Supabase Auth", {
       status: 500,
     });
   }

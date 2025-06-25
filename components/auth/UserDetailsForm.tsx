@@ -59,9 +59,14 @@ interface UserDetailsFormProps {
     roleId: number;
   }>;
   onSubmit: (values: z.infer<typeof UserDetailsFormSchema>) => void;
+  onDelete?: () => void;
 }
 
-const UserDetailsForm = ({ form, onSubmit }: UserDetailsFormProps) => {
+const UserDetailsForm = ({
+  form,
+  onSubmit,
+  onDelete,
+}: UserDetailsFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -70,9 +75,9 @@ const UserDetailsForm = ({ form, onSubmit }: UserDetailsFormProps) => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Staff Name</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="staff name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -135,11 +140,11 @@ const UserDetailsForm = ({ form, onSubmit }: UserDetailsFormProps) => {
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
                     <CommandInput
-                      placeholder="Search framework..."
+                      placeholder="Search role..."
                       className="h-9"
                     />
                     <CommandList>
-                      <CommandEmpty>No framework found.</CommandEmpty>
+                      <CommandEmpty>No role found.</CommandEmpty>
                       <CommandGroup>
                         {roles.map((role) => (
                           <CommandItem
@@ -173,7 +178,12 @@ const UserDetailsForm = ({ form, onSubmit }: UserDetailsFormProps) => {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        {onDelete && (
+          <Button variant="destructive" type="button" onClick={onDelete}>
+            Delete
+          </Button>
+        )}
+        <Button type="submit">{onDelete ? "Update" : "Submit"}</Button>
       </form>
     </Form>
   );

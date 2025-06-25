@@ -4,15 +4,16 @@ import React, { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import UserDetailsForm, {
   UserDetailsFormSchema,
 } from "@/components/auth/UserDetailsForm";
-import { getUserById, updateUser } from "@/services/auth";
+import { deleteUser, getUserById, updateUser } from "@/services/auth";
 
 const StaffDetails = () => {
   const { userId } = useParams();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof UserDetailsFormSchema>>({
     resolver: zodResolver(UserDetailsFormSchema),
@@ -80,6 +81,8 @@ const StaffDetails = () => {
 
       console.log("User updated successfully:", data);
       window.alert("User updated successfully.");
+
+      router.push("/admin/staff");
     } catch (error) {
       console.error("Error during form submission:", error);
       window.alert(
@@ -90,11 +93,36 @@ const StaffDetails = () => {
     console.log(values);
   };
 
+  const onDelete = async () => {
+    try {
+      const data = await deleteUser(userId.toString());
+
+      if (!data) {
+        console.error("Error deleting user");
+        window.alert(
+          "An error occurred while deleting the user. Please try again."
+        );
+        return;
+      }
+
+      console.log("User deleted successfully:", data);
+      window.alert("User deleted successfully.");
+
+      router.push("/admin/staff");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      window.alert(
+        "An error occurred while deleting the user. Please try again."
+      );
+      return;
+    }
+  };
+
   return (
-    <>
+    <div>
       <h1 className="text-2xl font-bold mb-4">Staff Details</h1>
-      <UserDetailsForm form={form} onSubmit={onSubmit} />
-    </>
+      <UserDetailsForm form={form} onSubmit={onSubmit} onDelete={onDelete} />
+    </div>
   );
 };
 

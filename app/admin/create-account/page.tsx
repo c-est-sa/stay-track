@@ -10,8 +10,11 @@ import UserDetailsForm, {
   UserDetailsFormSchema,
 } from "@/components/auth/UserDetailsForm";
 import { createUser } from "@/services/auth";
+import { useRouter } from "next/navigation";
 
 export function CreateAccountForm() {
+  const router = useRouter();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof UserDetailsFormSchema>>({
     resolver: zodResolver(UserDetailsFormSchema),
@@ -30,6 +33,8 @@ export function CreateAccountForm() {
 
       console.log("User created successfully:", response);
       window.alert("User created successfully.");
+
+      router.push("/admin/staff");
     } catch (error) {
       console.error("Error during form submission:", error);
       window.alert(
@@ -45,10 +50,10 @@ export function CreateAccountForm() {
 
 const CreateAccount = () => {
   return (
-    <>
+    <div>
       <h1 className="text-2xl font-bold mb-4">Create Account</h1>
       <CreateAccountForm />
-    </>
+    </div>
   );
 };
 
