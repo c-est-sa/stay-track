@@ -4,16 +4,19 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    if (!body.email || !body.password) {
+    if (!body.email || !body.password || !body.roleId) {
       console.log("Invalid input:", body);
       return Response.json("Invalid input", { status: 400 });
     }
 
-    const { email, password } = body;
+    const { email, password, roleId } = body;
     const { data, error } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
       email_confirm: true,
+      app_metadata: {
+        isAdmin: roleId === 1,
+      },
     });
 
     if (error) {

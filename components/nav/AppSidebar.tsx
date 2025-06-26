@@ -23,6 +23,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "../auth/AuthProvider";
+import { useEffect, useState } from "react";
 
 const hotelMenuItems = [
   // { title: "Room View", url: "/room-view", icon: BedDouble },
@@ -41,7 +42,18 @@ const adminMenuItems = [
 export function AppSidebar() {
   const pathname = usePathname();
 
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  console.log("User in AppSidebar:", user?.app_metadata);
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setIsAdmin(user.app_metadata?.isAdmin || false);
+    } else {
+      setIsAdmin(false);
+    }
+  }, [user]);
 
   return (
     <Sidebar collapsible="icon">
@@ -78,25 +90,31 @@ export function AppSidebar() {
         </SidebarGroupContent>
         <SidebarGroup />
 
-        <SidebarGroup />
-        <SidebarGroupLabel>Admin</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            {adminMenuItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <Link href={item.url}>
-                    <item.icon />
-                    <span className={pathname === item.url ? "font-bold" : ""}>
-                      {item.title}
-                    </span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-        <SidebarGroup />
+        {isAdmin && (
+          <>
+            <SidebarGroup />
+            <SidebarGroupLabel>Admin</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {adminMenuItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span
+                          className={pathname === item.url ? "font-bold" : ""}
+                        >
+                          {item.title}
+                        </span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+            <SidebarGroup />
+          </>
+        )}
       </SidebarContent>
 
       <SidebarFooter>
