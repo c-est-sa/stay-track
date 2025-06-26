@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { roboto } from "@/lib/fonts";
 import AppLayout from "./AppLayout";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 export const metadata: Metadata = {
   title: "StayTrack",
@@ -21,7 +22,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased`}>
         {/* <SidebarProvider defaultOpen={defaultOpen}> */}
-        <AppLayout>{children}</AppLayout>
+        <AuthProvider>
+          <AppLayout>{children}</AppLayout>
+        </AuthProvider>
       </body>
     </html>
   );

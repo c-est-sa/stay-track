@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,8 +16,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/services/auth";
+// import { signIn } from "@/services/auth";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/auth/AuthProvider";
+// import { login } from "./actions";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -29,6 +31,9 @@ const formSchema = z.object({
 });
 
 const SignInForm = () => {
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { signIn, user } = useAuth();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,27 +44,39 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      const response = await signIn(values);
-
-      console.log("User signed in successfully:", response);
-      window.alert("User signed in successfully.");
-
+  useEffect(() => {
+    if (user) {
+      console.log("User is already signed in:", user);
       router.push("/");
-    } catch (error) {
-      console.error("Error during form submission:", error);
-      window.alert(
-        "An error occurred while submitting the form. Please try again."
-      );
-      return;
     }
-    console.log(values);
+  }, [user, router]);
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+    setError(null);
+
+    const result = await signIn(values.email, values.password);
+
+    if (result.error) {
+      setError(result.error);
+      setIsLoading(false);
+    }
+    // If successful, the AuthProvider will handle the redirect
   };
+
+  // Don't render form if user is already logged in
+  if (user) {
+    return null;
+  }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {error && (
+          <div>
+            <h1>{error}</h1>
+          </div>
+        )}
         <FormField
           control={form.control}
           name="email"
@@ -89,7 +106,9 @@ const SignInForm = () => {
           )}
         />
 
-        <Button type="submit">Sign In</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "Signing In..." : "Sign In"}
+        </Button>
       </form>
     </Form>
   );

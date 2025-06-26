@@ -15,7 +15,7 @@
 //           return request.cookies.getAll();
 //         },
 //         setAll(cookiesToSet) {
-//           cookiesToSet.forEach(({ name, value, options }) =>
+//           cookiesToSet.forEach(({ name, value }) =>
 //             request.cookies.set(name, value)
 //           );
 //           supabaseResponse = NextResponse.next({
@@ -39,14 +39,15 @@
 //     data: { user },
 //   } = await supabase.auth.getUser();
 
-//   if (
-//     !user &&
-//     !request.nextUrl.pathname.startsWith("/login") &&
-//     !request.nextUrl.pathname.startsWith("/auth")
-//   ) {
+//   const publicRoutes = ["/signin"];
+//   const isPublicRoute = publicRoutes.some((route) =>
+//     request.nextUrl.pathname.startsWith(route)
+//   );
+
+//   if (!user && !isPublicRoute) {
 //     // no user, potentially respond by redirecting the user to the login page
 //     const url = request.nextUrl.clone();
-//     url.pathname = "/login";
+//     url.pathname = "/signin";
 //     return NextResponse.redirect(url);
 //   }
 

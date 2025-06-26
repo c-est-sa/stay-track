@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/nav/AppSidebar";
-import AuthGuard from "./AuthGuard";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,12 +14,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthGuard>
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarTrigger />
-        {children}
-      </SidebarProvider>
-    </AuthGuard>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarTrigger />
+      {children}
+    </SidebarProvider>
   );
 }
