@@ -12,7 +12,7 @@ import UserDetailsForm, {
 import { createUser } from "@/services/auth";
 import { useRouter } from "next/navigation";
 
-export function CreateAccountForm() {
+const CreateAccount = () => {
   const router = useRouter();
 
   // 1. Define your form.
@@ -45,14 +45,10 @@ export function CreateAccountForm() {
     console.log(values);
   };
 
-  return <UserDetailsForm form={form} onSubmit={onSubmit} />;
-}
-
-const CreateAccount = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Create Account</h1>
-      <CreateAccountForm />
+      <UserDetailsForm form={form} onSubmit={onSubmit} />
     </div>
   );
 };

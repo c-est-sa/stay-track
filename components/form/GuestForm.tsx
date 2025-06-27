@@ -45,16 +45,16 @@ export const GuestFormSchema = z.object({
   numberOfAdults: z.number().min(1, {
     message: "Number of adults must be at least 1.",
   }),
-  numberOfKids: z.number().default(0),
+  numberOfKids: z.number(),
   roomNumber: z.string({
     required_error: "Please select a room.",
   }),
-  guestStatus: z.number().default(1),
+  guestStatus: z.number(),
   reservationInfo: z.string().optional(),
-  reservationId: z.string().optional(),
+  reservationId: z.string(),
   bookingSite: z.number(),
-  paymentCompletionStatus: z.boolean().default(false),
-  reservationByRoomId: z.string().optional(),
+  paymentCompletionStatus: z.boolean(),
+  reservationByRoomId: z.string(),
   // reservedRoomName: z.string().optional(),
 });
 
@@ -90,7 +90,7 @@ interface GuestFormProps {
     roomNumber: string;
     guestStatus: number;
     reservationInfo?: string;
-    reservationId?: string;
+    reservationId: string;
     bookingSite: number;
     paymentCompletionStatus: boolean;
   }>;

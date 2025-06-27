@@ -182,10 +182,10 @@ export const createGuestDetails = async (
       // reservationInfo,
       paymentCompletionStatus,
       // reservationsByRoom,
-      bookingSite,
+      bookingSiteId: bookingSite,
 
       // reservationByRoom
-      reservationByRoomId,
+      // reservationByRoomId,
       roomNumber,
       // reservationId,
       guestName,
@@ -267,7 +267,7 @@ export const updateGuestDetails = async (
       reservationInfo,
       paymentCompletionStatus,
       // reservationsByRoom,
-      bookingSite: bookingSiteId,
+      bookingSiteId,
 
       // reservationByRoom
       roomNumber,

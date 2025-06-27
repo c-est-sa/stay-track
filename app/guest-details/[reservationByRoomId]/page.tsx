@@ -29,6 +29,7 @@ const GuestDetails = () => {
       reservationId: "",
       bookingSite: 4,
       paymentCompletionStatus: false,
+      reservationByRoomId: reservationByRoomId?.toString() || "",
     },
   });
 
