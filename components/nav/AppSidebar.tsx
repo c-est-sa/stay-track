@@ -61,7 +61,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/">
+              <Link href="/guest-view">
                 <span className="text-lg font-bold">StayTrack</span>
               </Link>
             </SidebarMenuButton>

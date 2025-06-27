@@ -10,10 +10,12 @@ import UserDetailsForm, {
   UserDetailsFormSchema,
 } from "@/components/auth/UserDetailsForm";
 import { deleteUser, getUserById, updateUser } from "@/services/auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 const StaffDetails = () => {
   const { userId } = useParams();
   const router = useRouter();
+  const { user } = useAuth();
 
   const form = useForm<z.infer<typeof UserDetailsFormSchema>>({
     resolver: zodResolver(UserDetailsFormSchema),
@@ -121,7 +123,13 @@ const StaffDetails = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Staff Details</h1>
-      <UserDetailsForm form={form} onSubmit={onSubmit} onDelete={onDelete} />
+      <UserDetailsForm
+        form={form}
+        onSubmit={onSubmit}
+        onDelete={
+          form.getValues("email") === user?.email ? undefined : onDelete
+        }
+      />
     </div>
   );
 };

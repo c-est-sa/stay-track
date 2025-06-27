@@ -47,7 +47,7 @@ const SignInForm = () => {
   useEffect(() => {
     if (user) {
       console.log("User is already signed in:", user);
-      router.push("/");
+      router.push("/guest-view");
     }
   }, [user, router]);
 

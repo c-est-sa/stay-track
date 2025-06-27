@@ -50,7 +50,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Redirect on sign in
       if (event === "SIGNED_IN") {
         // Get redirect URL from localStorage or default to home
-        const redirectTo = localStorage.getItem("redirectAfterLogin") || "/";
+        const redirectTo =
+          localStorage.getItem("redirectAfterLogin") || "/guest-view";
         localStorage.removeItem("redirectAfterLogin");
         router.push(redirectTo);
         router.refresh();
