@@ -19,7 +19,7 @@ function formatDate(date: Date | undefined) {
     return "";
   }
 
-  return date.toLocaleDateString("en-US", {
+  return date.toLocaleDateString(undefined, {
     day: "2-digit",
     month: "long",
     year: "numeric",
