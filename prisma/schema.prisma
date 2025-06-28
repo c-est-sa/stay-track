@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  userId        String   @id
+  username      String
+  email         String   @unique
+  roleId        Int
+  role          UserRole @relation(fields: [roleId], references: [roleId])
+}
+
+model UserRole {
+  roleId Int    @id @default(autoincrement())
+  role   String
+  user   User[]
+}
+
+model Reservation {
+  reservationId           String              @id
+  reservationName         String
+  checkInDate             DateTime
+  checkOutDate            DateTime
+  reservedRoomName        String[]
+  numberOfAdults          Int
+  numberOfKids            Int
+  reservationInfo         String?
+  paymentCompletionStatus Boolean
+  reservationsByRoom      ReservationByRoom[]
+  bookingSiteId           Int
+  bookingSite             BookingSite         @relation(fields: [bookingSiteId], references: [bookingSiteId])
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+}
+
+model BookingSite {
+  bookingSiteId   Int           @id @default(autoincrement())
+  bookingSiteName String
+  reservation     Reservation[]
+}
+
+model Room {
+  roomNumber        String              @id
+  roomName          String
+  roomImageUrl      String[]
+  maxNumberOfPeople Int
+  facilities        String[]
+  roomStatusId      Int?                @default(1)
+  roomStatus        RoomStatus?         @relation(fields: [roomStatusId], references: [roomStatusId])
+  roomInfo          String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  reservationByRoom ReservationByRoom[]
+}
+
+model RoomStatus {
+  roomStatusId Int    @id @default(autoincrement())
+  roomStatus   String
+  room         Room[]
+}
+
+model ReservationByRoom {
+  reservationByRoomId String           @id
+  roomNumber          String
+  room                Room             @relation(fields: [roomNumber], references: [roomNumber])
+  reservationId       String
+  reservation         Reservation      @relation(fields: [reservationId], references: [reservationId])
+  guestName           String
+  numberOfAdults      Int
+  numberOfKids        Int
+  guestStatusId       Int?             @default(1)
+  guestStatus         GuestStatus?     @relation(fields: [guestStatusId], references: [guestStatusId])
+  restaurantTimeId    Int?
+  restaurantTime      RestaurantTime?  @relation(fields: [restaurantTimeId], references: [restaurantTimeId])
+  restaurantTableId   Int?
+  restaurantTable     RestaurantTable? @relation(fields: [restaurantTableId], references: [restaurantTableId])
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+}
+
+model GuestStatus {
+  guestStatusId     Int                 @id @default(autoincrement())
+  guestStatus       String
+  reservationByRoom ReservationByRoom[]
+}
+
+model RestaurantTime {
+  restaurantTimeId  Int                 @id @default(autoincrement())
+  restaurantTime    String
+  reservationByRoom ReservationByRoom[]
+}
+
+model RestaurantTable {
+  restaurantTableId   Int                 @id @default(autoincrement())
+  restaurantTableName String
+  reservationByRoom   ReservationByRoom[]
+}
