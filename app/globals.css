@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+body {
+  max-width: 1200px;
+  margin: 16px auto;
+}
+
+.signin-container {
+  max-width: 900px;
+  margin: 16px auto;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

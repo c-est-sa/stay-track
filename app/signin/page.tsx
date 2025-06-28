@@ -61,10 +61,8 @@ const SignInForm = () => {
       setError(result.error);
       setIsLoading(false);
     }
-    // If successful, the AuthProvider will handle the redirect
   };
 
-  // Don't render form if user is already logged in
   if (user) {
     return null;
   }
@@ -116,8 +114,8 @@ const SignInForm = () => {
 
 const SignIn = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Sign In</h1>
+    <div className="signin-container">
+      <h1 className="text-2xl font-bold mb-4">Sign In to StayTrack</h1>
       <SignInForm />
     </div>
   );

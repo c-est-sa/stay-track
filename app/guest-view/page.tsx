@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { getReservationsForViewTable } from "@/services/reservation";
 import { toLocalDateString } from "@/utils/date";
 import Link from "next/link";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 const GuestView = () => {
   const today = toLocalDateString(new Date()); //YYYY-MM-DD
@@ -53,19 +54,21 @@ const GuestView = () => {
   }, [checkInDate]);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Guest View</h1>
-      <DataTable
-        columns={columns}
-        data={reservationData}
-        checkInDate={checkInDate}
-        setCheckInDate={setCheckInDate}
-      />
+    <ProtectedRoute>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Guest View</h1>
+        <DataTable
+          columns={columns}
+          data={reservationData}
+          checkInDate={checkInDate}
+          setCheckInDate={setCheckInDate}
+        />
 
-      <Link href={"/guest-details/new"}>
-        <Button>Create</Button>
-      </Link>
-    </div>
+        <Link href={"/guest-details/new"}>
+          <Button className="mt-4">Create</Button>
+        </Link>
+      </div>
+    </ProtectedRoute>
   );
 };
 

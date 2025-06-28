@@ -1,5 +1,6 @@
 "use client";
 
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { staffColumns, StaffTableType } from "@/components/table/staffColumns";
 import { StaffDataTable } from "@/components/table/staffDataTable";
 import { Button } from "@/components/ui/button";
@@ -44,14 +45,16 @@ const StaffList = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Staff List</h1>
-      <StaffDataTable columns={staffColumns} data={staffData} />
+    <ProtectedRoute>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Staff List</h1>
+        <StaffDataTable columns={staffColumns} data={staffData} />
 
-      <Link href={"/admin/create-account"}>
-        <Button>Create</Button>
-      </Link>
-    </div>
+        <Link href={"/admin/create-account"}>
+          <Button className="mt-4">Create</Button>
+        </Link>
+      </div>
+    </ProtectedRoute>
   );
 };
 

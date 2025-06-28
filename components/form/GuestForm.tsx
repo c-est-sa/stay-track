@@ -477,12 +477,14 @@ const GuestForm = ({
           )}
         />
 
-        {onDelete && (
-          <Button variant="destructive" type="button" onClick={onDelete}>
-            Delete
-          </Button>
-        )}
-        <Button type="submit">Submit</Button>
+        <div className="flex items-center space-x-4">
+          {onDelete && (
+            <Button variant="destructive" type="button" onClick={onDelete}>
+              Delete
+            </Button>
+          )}
+          <Button type="submit">{onDelete ? "Update" : "Submit"}</Button>
+        </div>
       </form>
     </Form>
   );
