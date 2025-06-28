@@ -47,9 +47,10 @@ const StaffList = () => {
     <div>
       <h1 className="text-2xl font-bold mb-4">Staff List</h1>
       <StaffDataTable columns={staffColumns} data={staffData} />
-      <Button>
-        <Link href={"/admin/create-account"}>Create</Link>
-      </Button>
+
+      <Link href={"/admin/create-account"}>
+        <Button>Create</Button>
+      </Link>
     </div>
   );
 };
