@@ -51,7 +51,7 @@ const StaffList = () => {
         <StaffDataTable columns={staffColumns} data={staffData} />
 
         <Link href={"/admin/create-account"}>
-          <Button>Create</Button>
+          <Button className="mt-4">Create</Button>
         </Link>
       </div>
     </ProtectedRoute>

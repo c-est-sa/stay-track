@@ -65,7 +65,7 @@ const GuestView = () => {
         />
 
         <Link href={"/guest-details/new"}>
-          <Button>Create</Button>
+          <Button className="mt-4">Create</Button>
         </Link>
       </div>
     </ProtectedRoute>
