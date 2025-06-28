@@ -61,9 +61,10 @@ const GuestView = () => {
         checkInDate={checkInDate}
         setCheckInDate={setCheckInDate}
       />
-      <Button>
-        <Link href={"/guest-details/new"}>Create</Link>
-      </Button>
+
+      <Link href={"/guest-details/new"}>
+        <Button>Create</Button>
+      </Link>
     </div>
   );
 };
