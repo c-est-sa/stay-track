@@ -114,8 +114,8 @@ const SignInForm = () => {
 
 const SignIn = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Sign In</h1>
+    <div className="signin-container">
+      <h1 className="text-2xl font-bold mb-4">Sign In to StayTrack</h1>
       <SignInForm />
     </div>
   );
