@@ -1,5 +1,6 @@
 "use client";
 
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import GuestForm, { GuestFormSchema } from "@/components/form/GuestForm";
 import { createGuestDetails } from "@/services/reservation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -69,10 +70,12 @@ const GuestDetailsNew = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Create Guest Details</h1>
-      <GuestForm form={form} onSubmit={onSubmit} isNewCreation={true} />
-    </div>
+    <ProtectedRoute>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Create Guest Details</h1>
+        <GuestForm form={form} onSubmit={onSubmit} isNewCreation={true} />
+      </div>
+    </ProtectedRoute>
   );
 };
 

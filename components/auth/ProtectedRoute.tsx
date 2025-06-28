@@ -16,13 +16,11 @@ export function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
 
   useEffect(() => {
     if (!loading && !user) {
-      // Store the current path to redirect back after login
       localStorage.setItem("redirectAfterLogin", pathname);
       router.push("/signin");
     }
   }, [user, loading, router, pathname]);
 
-  // Show loading spinner while checking auth
   if (loading) {
     return (
       fallback || (
@@ -33,11 +31,10 @@ export function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
     );
   }
 
-  // Show nothing while redirecting
+  // while redirecting
   if (!user) {
     return null;
   }
 
-  // Show protected content
   return <>{children}</>;
 }

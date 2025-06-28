@@ -1,5 +1,6 @@
 "use client";
 
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import GuestForm, { GuestFormSchema } from "@/components/form/GuestForm";
 import {
   deleteReservationByRoom,
@@ -148,10 +149,12 @@ const GuestDetails = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Guest Details</h1>
-      <GuestForm form={form} onSubmit={onSubmit} onDelete={onDelete} />
-    </div>
+    <ProtectedRoute>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Guest Details</h1>
+        <GuestForm form={form} onSubmit={onSubmit} onDelete={onDelete} />
+      </div>
+    </ProtectedRoute>
   );
 };
 

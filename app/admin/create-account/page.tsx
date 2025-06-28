@@ -11,6 +11,7 @@ import UserDetailsForm, {
 } from "@/components/auth/UserDetailsForm";
 import { createUser } from "@/services/auth";
 import { useRouter } from "next/navigation";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 const CreateAccount = () => {
   const router = useRouter();
@@ -46,10 +47,12 @@ const CreateAccount = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Create Account</h1>
-      <UserDetailsForm form={form} onSubmit={onSubmit} />
-    </div>
+    <ProtectedRoute>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Create Account</h1>
+        <UserDetailsForm form={form} onSubmit={onSubmit} />
+      </div>
+    </ProtectedRoute>
   );
 };
 

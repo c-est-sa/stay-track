@@ -11,6 +11,7 @@ import UserDetailsForm, {
 } from "@/components/auth/UserDetailsForm";
 import { deleteUser, getUserById, updateUser } from "@/services/auth";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 const StaffDetails = () => {
   const { userId } = useParams();
@@ -121,16 +122,18 @@ const StaffDetails = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Staff Details</h1>
-      <UserDetailsForm
-        form={form}
-        onSubmit={onSubmit}
-        onDelete={
-          form.getValues("email") === user?.email ? undefined : onDelete
-        }
-      />
-    </div>
+    <ProtectedRoute>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Staff Details</h1>
+        <UserDetailsForm
+          form={form}
+          onSubmit={onSubmit}
+          onDelete={
+            form.getValues("email") === user?.email ? undefined : onDelete
+          }
+        />
+      </div>
+    </ProtectedRoute>
   );
 };
 

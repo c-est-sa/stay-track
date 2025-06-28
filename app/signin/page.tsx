@@ -61,10 +61,8 @@ const SignInForm = () => {
       setError(result.error);
       setIsLoading(false);
     }
-    // If successful, the AuthProvider will handle the redirect
   };
 
-  // Don't render form if user is already logged in
   if (user) {
     return null;
   }
