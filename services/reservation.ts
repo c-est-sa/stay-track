@@ -254,6 +254,8 @@ export const updateGuestDetails = async (
   dataToUpdate: UpdateGuestDetailsDataType
 ) => {
   try {
+    console.log("Data to update:", dataToUpdate);
+
     const {
       reservationId,
 
@@ -272,7 +274,7 @@ export const updateGuestDetails = async (
       // reservationByRoom
       roomNumber,
       guestName,
-      guestStatusId,
+      guestStatus: guestStatusId,
       // numberOfAdults,
       // numberOfKids,
     } = dataToUpdate;
@@ -304,8 +306,8 @@ export const updateGuestDetails = async (
         Object.entries(obj).filter(([, value]) => value !== undefined)
       ) as Partial<T>;
 
-    console.log("reservationData:", reservationData);
-    console.log("reservationData cleaned:", clean(reservationData));
+    console.log("reservationData:", reservationByRoomData);
+    console.log("reservationData cleaned:", clean(reservationByRoomData));
 
     await Promise.all([
       updateReservation(reservationId, clean(reservationData)),

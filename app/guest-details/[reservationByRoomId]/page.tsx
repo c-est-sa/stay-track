@@ -7,13 +7,15 @@ import {
   updateGuestDetails,
 } from "@/services/reservation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const GuestDetails = () => {
   const { reservationByRoomId } = useParams();
+
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof GuestFormSchema>>({
     resolver: zodResolver(GuestFormSchema),
@@ -69,6 +71,7 @@ const GuestDetails = () => {
           bookingSite: data.reservation.bookingSite.bookingSiteId || 4,
           paymentCompletionStatus:
             data.reservation.paymentCompletionStatus || false,
+          reservationByRoomId: reservationByRoomId.toString(),
         });
       } catch (error) {
         console.error("Error fetching guest details:", error);
@@ -107,6 +110,8 @@ const GuestDetails = () => {
 
       console.log("Guest details updated successfully:", data);
       window.alert("Guest details updated successfully.");
+
+      router.push("/guest-view");
     } catch (error) {
       console.error("Error during from submission:", error);
       window.alert(
@@ -131,6 +136,8 @@ const GuestDetails = () => {
       }
       console.log("Guest details deleted successfully:", data);
       window.alert("Guest details deleted successfully.");
+
+      router.push("/guest-view");
     } catch (error) {
       console.error("Error deleting guest details:", error);
       window.alert(
@@ -141,10 +148,10 @@ const GuestDetails = () => {
   };
 
   return (
-    <>
+    <div>
       <h1 className="text-2xl font-bold mb-4">Guest Details</h1>
       <GuestForm form={form} onSubmit={onSubmit} onDelete={onDelete} />
-    </>
+    </div>
   );
 };
 

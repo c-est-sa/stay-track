@@ -28,7 +28,7 @@ export interface CreateReservationByRoomDataType {
 
 export interface UpdateReservationByRoomDataType
   extends Partial<CreateReservationByRoomDataType> {
-  guestStatusId?: number;
+  guestStatus?: number;
   restaurantTimeId?: number;
   restaurantTableId?: number;
 }
