@@ -8,12 +8,12 @@ import {
 import { DataTable } from "@/components/table/DataTable";
 import { Button } from "@/components/ui/button";
 import { getReservationsForViewTable } from "@/services/reservation";
-import { toLocalDateString } from "@/utils/date";
+import { getTodayUTC } from "@/utils/date";
 import Link from "next/link";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 const GuestView = () => {
-  const today = toLocalDateString(new Date()); //YYYY-MM-DD
+  const today = getTodayUTC(); //YYYY-MM-DD
 
   const [checkInDate, setCheckInDate] = useState(today);
   const [reservationData, setReservationData] = useState<

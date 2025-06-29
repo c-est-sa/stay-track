@@ -12,19 +12,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { toLocalDateString } from "@/utils/date";
+import {
+  formatUTCDateForDisplay,
+  parseUTCDateString,
+  // toLocalDateString,
+  toUTCDateString,
+} from "@/utils/date";
 
-function formatDate(date: Date | undefined) {
-  if (!date) {
-    return "";
-  }
+// function formatDate(date: Date | undefined) {
+//   if (!date) {
+//     return "";
+//   }
 
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-}
+//   return date.toLocaleDateString(undefined, {
+//     day: "2-digit",
+//     month: "long",
+//     year: "numeric",
+//   });
+// }
 
 function isValidDate(date: Date | undefined) {
   if (!date) {
@@ -46,10 +51,10 @@ export function DatePickerWithInput({
 }: DatePickerWithInputProps) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(
-    new Date(checkInDate)
+    parseUTCDateString(checkInDate)
   );
   const [month, setMonth] = React.useState<Date | undefined>(date);
-  const [value, setValue] = React.useState(formatDate(date));
+  const [value, setValue] = React.useState(formatUTCDateForDisplay(date!));
 
   return (
     <div className="flex flex-col gap-1">
@@ -66,11 +71,18 @@ export function DatePickerWithInput({
             const date = new Date(e.target.value);
             setValue(e.target.value);
             if (isValidDate(date)) {
-              setDate(date);
-              setMonth(date);
-            }
+              const utcDate = new Date(
+                Date.UTC(
+                  date.getUTCFullYear(),
+                  date.getUTCMonth(),
+                  date.getUTCDate()
+                )
+              );
 
-            setCheckInDate(e.target.value);
+              setDate(utcDate);
+              setMonth(utcDate);
+              setCheckInDate(toUTCDateString(utcDate));
+            }
           }}
           onKeyDown={(e) => {
             if (e.key === "ArrowDown") {
@@ -104,12 +116,23 @@ export function DatePickerWithInput({
               onMonthChange={setMonth}
               onSelect={(date) => {
                 console.log("Selected date:", date);
-                setDate(date);
-                setValue(formatDate(date));
-                setOpen(false);
                 if (isValidDate(date) && date) {
-                  setCheckInDate(toLocalDateString(date));
+                  const utcDate = new Date(
+                    Date.UTC(
+                      date.getFullYear(),
+                      date.getMonth(),
+                      date.getDate()
+                    )
+                  );
+
+                  console.log("Converted to UTC:", utcDate.toISOString());
+                  console.log("UTC date string:", toUTCDateString(utcDate));
+
+                  setDate(utcDate);
+                  setValue(formatUTCDateForDisplay(utcDate));
+                  setCheckInDate(toUTCDateString(utcDate));
                 }
+                setOpen(false);
               }}
             />
           </PopoverContent>
