@@ -3,6 +3,7 @@
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import GuestForm, { GuestFormSchema } from "@/components/form/GuestForm";
 import { createGuestDetails } from "@/services/reservation";
+// import { parseUTCDateString, toUTCDateString } from "@/utils/date";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -47,8 +48,8 @@ const GuestDetailsNew = () => {
 
       const formattedValues = {
         ...values,
-        // checkInDate: values.checkInDate.toISOString(),
-        // checkOutDate: values.checkOutDate.toISOString(),
+        // checkInDate: parseUTCDateString(toUTCDateString(values.checkInDate)),
+        // checkOutDate: parseUTCDateString(toUTCDateString(values.checkOutDate)),
         reservedRoomName: [values.roomNumber],
         reservationName: values.guestName,
         bookingSiteId: values.bookingSite,
