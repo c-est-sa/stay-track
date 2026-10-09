@@ -12,6 +12,7 @@ Most of the small-to-medium-sized hotels don't have dedicated systems to manage 
    ![staff list screen](https://github.com/user-attachments/assets/7157259a-0ca7-452c-a52d-a12ab2a9e702)
    ![staff details screen](https://github.com/user-attachments/assets/095022ad-93e7-458d-ba94-2217c63aaece)
 
+<!--
 ## Running The Project
 
 \*sign-in info is below
@@ -36,6 +37,7 @@ Reception account:
  email: receptionsample@email.com
  password:receptionsample
 ```
+-->
 
 ## Dependencies
 
